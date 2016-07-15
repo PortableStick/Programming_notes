@@ -1,0 +1,345 @@
+/**************************
+Grid system
+**************************/
+
+/*Bootstrap comes with a 12 column grid system
+It is mobile first*/
+
+/* Setup a row
+================================ */
+
+<div class="row">
+
+/*columns are defined by col-<cutoff>-<size>
+cutoff is one of three presets - xs, sm, md, lg
+these cutoffs define mobile query cutoff points.
+
+As the browser window is made more narrow, the sm, 
+md, and lg sizes will stack vertically.xs is for 
+mobile devices, and meant to be horizontal at all 
+times 
+*/
+
+/*The column sizes must add up to 12 per row grouping
+unless offset*/
+
+<div class="col-md-4">//content//</div>
+<div class="col-md-3">//content//</div>
+<div class="col-md-5">//content//</div>
+
+/*Use multiple column defintions to create fully responsive
+layouts */
+
+<span class="col-xs-4 col-md-3 col-sm-3">//content//</span>
+<span class="col-xs-4 col-md 6 col-sm-7">//content//</span>
+<span class="col-xs-4 col-md-3 col-sm-2">//content//</span>
+
+/* Offset
+================================ */
+
+/*Column width can be adjusted by using offset. Offset is 
+always added to the left of the element
+							col-<cutoff>-offset-<size>*/
+
+<div class="col-md-9 col-md-offset-3">//content//</div>
+
+/* Push - Pull
+================================ */
+
+/*Columns can be moved to differ from the source order at different sizes
+by using col-<cutoff>-push-<size> and col-<cutoff>-pull-<size>
+
+Pull moves columns to the left
+Push moves columns to the right
+
+Note that in order to make two columns trade places, one needs to push 
+or pull the size of the element's counterpart
+*/
+
+<div class="col-lg-3 col-sm-4 col-lg-push-9 col-sm-push-8">//content//</div>  
+<div class="col-lg-9 col-sm-8 col-lg-pull-3 col-sm-pull-4">//content//</div>
+
+/* Nesting columns
+================================ */
+
+/*Rows of columns can be nested in another column.  
+ This splits the containing column into 12 more columns,
+ which allows the placement of more elements in the
+ same row-column configuration used for any ther
+ containing element*/
+
+ <div class="row"> <!--super-row-->
+ 	<div class="col-md-8"> <!--containing column-->
+ 		<div class="row"> <!--This splits the containing column into 12 more-->
+ 			<caption class="col-md-6">
+ 			<caption class="col-md-6">
+ 			...
+
+/**************************
+Responsive classes
+**************************/
+
+/*Using the hidden and visible classes <do not> prevent
+resources from downloading.*/
+
+
+/* Hidden
+================================ */
+
+/*The hidden class is used with a media query cutoff
+	hidden-<size>*/
+
+<img class="hidden-xs">
+
+/* Visible
+================================ */
+
+/*The visible class is used with a media query cutoff
+	and a display type
+	visible-<size>-<displayType>
+	*/
+
+<img class="visible-lg-block">
+<img class="visible-md-inline">
+<img class="visible-sm-inline-block">
+
+/**************************
+Buttons
+**************************/
+
+/*All buttons must have the btn class*/
+<a href='#' class="btn">
+
+/*btn requires another btn-* class*/
+
+<a href='#' class="btn btn-default">
+
+/*btn can also be sized...*/
+
+<a href='#' class="btn btn-success btn-lg">
+
+/*... and display options set*/
+
+<a href='#' class="btn btn-warning btn-block">
+
+/**************************
+Images
+**************************/
+/*Images are not responsive by default*/
+
+/* Make responsive
+================================ */
+
+<img src="path/to/image" class="img-responsive">
+
+/*This ought to be used for all images unless
+there is a good reason not to (competing styles)*/
+
+/* Styling
+================================ */
+
+<img src="path/to/image" class="img-circle"> //oval or circle
+<img src="path/to/image" class="img-rounded"> //rounded corners
+<img src="path/to/image" class="thumbnail"> //grey border
+
+/**************************
+Navigation
+**************************/
+
+/* Location breadcrumbs
+================================ */
+
+/*First, make the location trail with an ordered list*/
+
+<ol class="breadcrumb"> //add class 'breadcrumb'//
+	<li>home</li>
+	<li>Site 1</li>
+	<li class="active">Site 2</li>
+</ol>
+
+/* Navigation menu
+================================ */
+
+/*Create an unordered list*/
+
+<ul class="nav nav-tabs"> //All navs require class 'nav'//
+	<li><a href="#">Home</a></li>
+	<li class="active"><a href="#">About</a></li>	
+	<li><a href="#">Portfolio</a></li>
+</ul>
+
+/*The nav-* classes will lay the menu items out horizontally.
+In order to create a vertical list, add 'nav-stacked*/
+
+<ul class="nav nav-pills nav-stacked"> // nav-pills tends to look better vertical than nav-tabs
+	<li><a href="#">Home</a></li>
+	<li class="active"><a href="#">About</a></li>	
+	<li><a href="#">Portfolio</a></li>
+</ul>
+
+/*To stretch the navigation across the width of the
+page, use the nav-justified class*/
+
+<ul class="nav nav-tabs nav-justified"> 
+	<li><a href="#">Home</a></li>
+	<li class="active"><a href="#">About</a></li>	
+	<li><a href="#">Portfolio</a></li>
+</ul>
+
+
+/* Navigation bar
+================================ */
+
+<nav class="navbar navbar-default" role="navigation"> //The 'role' attribute is for asst. tech
+	<ul class="nav navbar-nav"> //navbar-nav distinguishes this as a navigation for the navbar
+		<li><a href="#">Home</a></li>	
+		<li class="active"><a href="#">About</a></li>	
+		<li><a href="#">Portfolio</a></li>
+	</ul>
+</nav>
+
+
+/* Responsive pulldown menu
+================================ */
+<nav class="navbar navbar-default">
+	<div class="navbar-header">
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#collapse">
+			<span class="sr-only">Toggle navigation</span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
+	</div>
+	<div class="collapse navbar-collapse" id="collapse">
+		<ul class="nav navbar-nav">
+			<li><a href="#">Home</a></li>	
+			<li class="active"><a href="#">About</a></li>	
+			<li><a href="#">Portfolio</a></li>
+		</ul>
+	</div>
+</nav>
+
+/* Styling
+================================ */
+
+/*Dark theme*/
+<nav class="navbar navbar-default navbar-inverse">
+	/.../
+</nav>
+
+/*Stick the navbar to the top of the viewport*/
+/*******Don't forget to fix the padding!******/
+<nav class="navbar navbar-default navbar-fixed-top">
+	/../
+</nav>
+
+
+/**************************
+Modal dialogs
+**************************/
+/*Modals are anything that will pop up to display
+information about a given link rather than taking
+the user to a new page.*/
+
+//First, the links need to target the id of the modal windows.  
+
+<a href="#modalwindow-1" data-toggle="modal">//Also, the data-toggle attribute
+
+//Everything we want to show up is contained in a the class 'modal'
+
+<div id="modalwindow-1" class="modal" tabindex="-1">//Note the tabindex attribute
+
+//Within this is the 'modal-dialog'
+
+	<div class="modal-dialog">
+
+//The modal dialog container has three important subsections.
+
+//Header
+
+		<div class="modal-header">
+			<h3 class="heading">
+
+//Body
+		<div class="modal-body">
+			<p class="body-text">
+
+//Footer
+		<div class="modal-footer">
+			<p class="footer-text">
+
+/*Often, buttons are added to allow the user to close
+the modal window.  To enable the close button, add
+the attribute 'data-dismiss="modal"'*/
+
+<button class="btn btn-primary" data-dismiss="modal">
+
+/**************************
+Carousel
+**************************/
+
+/* Setup
+================================ */
+	
+/*Carousels are filled with images (lists are not used).
+These images are wrapped in two tags*/
+
+<div class="carousel slide" data-ride="carousel">//Note the two classes
+	<div class="carousel-inner">				/*data-ride is not usable if controlling the carousel
+													in JavaScript*/
+
+//Each image is then wrapped in its own div with the class 'item'
+
+	<div class="item">
+		<img src="path/to/image">
+	</div>
+	<div class="item">
+		<img src="path/to/image">
+	</div>
+	<div class="item">
+		<img src="path/to/image">
+	</div>
+
+//The first item to be displayed needs the class 'active'
+
+	<div class="item active">
+		<img src="path/to/image">
+	</div>
+
+/* Captions
+================================ */
+
+//Captions are placed inside of each item
+
+<div class="item">
+	<img src="path/to/image">
+	<div class="carousel-caption">
+		<h3>Some text</h3>
+	</div>
+</div>
+
+/* Indicators
+================================ */
+
+/*Indicators show where the image is in the series and allows navigation.
+  They are set up inside of the carousel, but outside of carousel-inner*/
+
+<div class="carousel slide" data-ride="carousel">
+	<!--Indicators set up here-->
+	<ol class="carousel-indicators">
+		<li data-target="#someId" data-slide-to="0" class="active"></li>
+		//data-target matches the carousel's id
+		//data-slide-to is the image's zero-based index
+		//add the class of 'active' to the same item that is active in the carousel
+		<li data-target="#someId" data-slide-to='1'></li>
+		<li data-target="#someId" data-slide-to='2'></li>
+		<li data-target="#someId" data-slide-to='3'></li>
+	</ol>
+
+	<div class="carousel-inner">
+		...
+
+/**************************
+Forms
+**************************/
+

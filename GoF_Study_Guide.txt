@@ -1,0 +1,11 @@
+/*Chapter 1 
+================================ */
+1) What is a design pattern?
+2) What are the data and operation restrictions that define 'encapsulation'?
+3) How does an object's class differ from its type?
+4) What are the pros and cons of inhertiance and composition?
+5) How is delegation different from inheritance?
+6) What are the three ways to compose behavior in object oriented systems?
+7) What does the distinction between aggregation and acquaintance tell us about understanding run-time structure from compile-time structure?
+8) How do design patterns aide in writing applications, toolkits, and frameworks?
+9) How do design patterns differ from frameworks?

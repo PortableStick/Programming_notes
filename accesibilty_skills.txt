@@ -1,0 +1,167 @@
+ARIA - Accessibility Rich Internet Application
+
+/* Defining Disability
+================================ */
+
+Who?  Anybody.  Everybody!  Good accessbility means making technology that everyone can use, and this helps even the most able-bodied person use tech better.
+
+What?  Obvious disabilities are blindness, deafness, low vision or hearing, color blindness, and motor skill issues.  Others are due to the effects of aging (arthritis, vision, etc), cognitive impairments (memory, focus, learning...), or injury (broken finger, arm, injured eye).  Even the technology used can require accessibility considerations, such as slow internet speeds, low availability, smaller screen sizes and older hardware.
+
+How?  Accessibility is often an afterthought, requiring hacks and tacked on functionality that is both less effective and more costly.  Having clear goals for accessibility from the beginning of the design process can lead to a much more effective solution to these issues and reduce overall investment.
+
+    Some tips:
+        Make sure accessibility is discussed early on to get everyone on the same page
+        Have a designated lead on accessibility issues
+        Create user stories specificly for people of various needs
+        Do the research required to make sure all frameworks and libraries involved are accessibile where needed.
+
+/* Accessibility in design
+================================ */
+
+Responsive design is already considered best practice, and it provides accessibility for people with vision problems and small screen sizes.
+
+Colors need to contrast well, not just for the colorblind, but for those viewing their screen in bright lights or with low quality screens.
+
+If the interface is busy, or if the device is meant to be used in a busy environment, there needs to be a very striaghtforward call to action so that the user can interface with the device with low cognitive overhead.
+
+Typography, as always, is paramount.  A good body copy font size is between 16-20px.  Line length should be between 45-75 characters, with 66 being considered the ideal.  Typographic hierarchy should be very clear, as should boldness.  Line height should be about 125% percent of x-height, but can vary.  Text should be justified to avoid rivers, as this can make life difficult for people with reading and learning disabilities, such as dislexia.  Ragged edges, especially right ragged, are much easier on the brain because there are clear points of attachment.  All caps can sometimes make text harder to read, and may confuse screen readers.
+
+Forms are the main way customers and users will engage with owners of websites, so it's necessary to get them right.  Every input *must* have a label.  Placeholders are good, but they disappear when the field is filled and the user may forget what they were filling out. Clearly mark which fields are required, and make sure the user knows how to format the input (how long should this password be, and what kinds of characters are allowed?).  When an input fails validation, don't just put a red ring around it via Bootstrap, because colorblind users won't be able to see it.  Icons and/or error messages next to the input are ideal.
+
+Touch targets should be at least 44-48px square, though bigger is better.  Making sure the target is bigger than our fingers means we can provide user feedback on the target.  There also needs to be enough space between the targets that mistakes are unlikely.
+
+Focus and active states must be handled with care. Do not obfuscate or remove them in the design.  Make sure they contrast well with the rest of the site.  Do not rely just on color.
+
+Vestibular and motion disorders can make visual movement problematic.  Keep animations and fancy visual features like parallax to a minimum, maybe allowing the user to turn them off.
+
+**************DO NOT JUST DESIGN FOR THE IDEAL USER*******************
+Create user stories for people in different scenarios.  After lunch, before bed, sick, injured, panicked, etc.  Make sure the interaction holds for a diverse set of people in diverse situations.  Provide information for many different failure cases.
+
+/* Coding
+================================ */
+
+/*Proper document structure*/
+
+Make use of HTML5's semantic markup.  **Do not** skip headers - h2 must have a parent h1, etc.  Use <main> for main content.  Use the proper list formats - ol, ul, or dl.
+
+If you disable the styelsheet on your website, the page should still be readable and flow logically.
+
+/*Keyboard navigation*/
+
+Supply users (and screen readers) with a link to go straight to the main content.  After the user has tabbed through the navigation bar (if desired), they should end up at the main content, **not** the secondary content (side bar).
+
+.hiddenStuff {
+  height: 0;
+  width: 0;
+  display: hidden;
+  display: none;  //These will disable any focus styles in use by the browser.  Do not do this without replacing those styles.
+}
+
+Better option:
+
+.hiddenStuff {
+  position: absolute;
+  left: -99999px;
+  top: auto;
+  overflow: hidden;  //This will hide the element from sighted users, but allow assistive tech to get to it. Use animations to bring into view in case a keyboard navigator tabs to the content - it can be readable, then disppear again!
+}
+
+Possibly the best option:
+
+.hiddenStuff {
+  position: absolute;
+  clip: 1px, 1px, 1px, 1px;
+    //There are some performance concerns with moving things to the left
+}
+
+Spans and divs that are used as buttons get skipped by keyboard navigation.  Use links and buttons instead, but if a span is actually necessary, give it a tab-index.
+
+Some other standards:
+
+Tab - moves "forward" through the items/widgets onscreen
+Alt + Tab - moves "backwards" through tabable items
+Arrows - should move through groups items (tabs within a section that can be Tabbed to)
+Space - Activates currently selected widget or form element
+Enter - Activates default form action
+
+/*Images*/
+
+Any images other than the purely decorative (background, icons) must have alt text.  More complicated images, such as graphs or charts, should use the aria-describedBy attribute to tell screen readers which link supplies the graph or chart information (referenced by the link's name attribute).  If no description is needed, set the alt attribute to an empty string (alt="") as this will tell the screen reader to ignore the image.
+
+/*Content*/
+Video and audio information must have caption files and transcripts to accompany.  Links to "Read More" should be more descriptive, such as "Read More About Lake Tahoe".  CSS can be used to hide the longer title and replace it with just "Read More" for sighted users, if needed.
+
+/*Accessibility attributes*/
+<html lang="en"...
+<blockquote lang="fr"...
+
+Very important!  Screen readers must know what language they are reading!!
+
+<img alt="A picture of a cat"...
+
+Obvious...
+
+<abbr title="Hyper Text Markup Language"> title must contain the description of the word and **nothing else**
+HTML
+</abbr>
+
+<submit tabindex="6"> Usually not necessary, but it can be sometimes.  Objects created in JavaScript are better dealt with using aria attributes.
+
+/*Forms*/
+Always use labels, and always include the for attribute to link the label to its respective input.  Use fieldsets to group the forms into logical units, and label the units with <legend>Some Title</legend>.
+
+Ensure that all form elements which are required are marked as such, and that this is visually reflected on screen.
+
+Ust <opt-group>s for <select> elements to group related options so that users can navigate to each option easily be keyboard.
+
+For groups of fields related under a single topic, question, or instruction (such as checkboxes), group them all under a <fieldset> and label them with a <legend>
+
+**Do not set keyboard focus using JavaScript, either at the page's load or in response to user activity **
+
+/* WAI-ARIA
+================================ */
+
+Web Accessibility Initiative - Accessibility Rich Internet Application
+
+ARIA is split up into two basic categories:
+
+ARIA roles - These define the context under which assistive tech should interpret the contained code.  For instance, a SPA should be marked at the highest level as role="application", because that tells the operating system's assistive api that it should be expecting widgets and other interfaces typical of an application rather than a website, which would contain links and buttons.  Roles also define structure eg. tabls, navigation, etc.
+
+ARIA properties - These define states that an element is in within the context of assistive interfaces, useful for when elements are controlled via JavaScript.  For instance, aria-hidden="true" is used to tell assistive tech that a menu or submenu is hidden, and gets changed to "false" when it is shown.  Other properties change less frequently and may simply provide a conceptual bridge from one element to another, eg. aria-describedBy="nameOfTooltip" could be on a form input to tell assistive tech where to find its description.
+
+Always prefer HTML to aria properties where available.
+
+aria-required="true" //Tells screen readers that this field is required
+aria-invalid="true" //Informs screen readers that there is a validation issue with this field
+
+**AJAX**
+aria-notify="polite/assertive" //polite updates user when input is complete, assertive interrupts whatever the user is doing.
+
+aria-atomic="true" //When any of this element's children change, read all of them aloud.
+
+aria-budy="true" //Set this to true when updating lots of data to prevent the screen reader from reading every change.  Set it to false when done.
+
+/* Guildlines
+================================ */
+
+P.O.U.R.
+
+P
+---
+Perceivable:
+No information on the site can be invisible to all of the user's senses.  They must be able to perceive the site's information in some way.  This means providing text alternatives, larger print, braille, speech, symbols, or simpler language.  Transcipts and captions must be avaiable for audio.
+
+O
+---
+Operable:
+The site must be operable by all users.  Keyboard interaction must be unimpeded and complete.  Do not make anything flash more than 3 times in a 1 second period to avoid causing seizures in photosensitive users.
+
+U
+---
+Understandable:
+Follow good design principles.  Make sure headings, lists, and other semantic tags are used correctly.  Forms need to provide good feedback on input requirements and errors.  All application controls should be consistant throughout the application - don't use the same symbol to mean two different things.
+
+R
+---
+Robust:
+Build logical, standards compliant, well structured code.  Use ARIA roles when needed.

@@ -1,0 +1,54 @@
+SOAP = Simple Object Access Protocol
+REST = REpresentational State Transfer
+PRG = POST/Redirect/GET: A pattern that redirects the user to a GET request immediately after making a POST.  This prevents the user from accidentally performing some unsafe operation which would have unintended consequences, such as duplicate credit card charges or trying to sign up for the same account twice.  The server should response with 302 so that the browser will still go to the original POST URL again in the future - a 301 response will signal a permanent redirect.
+
+The HTTP protocol defines a request message and a response message.  Each has a header with a body, delimited by white space.
+
+Submitting a GET request will put the data in the URL as a query string.  POST tunnels the data through the body of the request.
+
+q=0.9 //The 'Q' value specifies the relative quality of something, that is, how desired it is.  Useful for prioritizing different header values.
+
+/* HTTP Request Message
+================================ */
+
+[method] [URL] [version]  //This is the start line. Plain ASCII text.  Required.
+[headers]  //Multiple values are comma separated
+[body]
+
+/* HTTP Response Message
+================================ */
+
+[version] [status] [reason]
+[headers]  //X-headers are non-standard 
+[body]
+
+
+HTTP status codes should reflect the state of the transaction, not the application.  So, a user who supplies insufficient data for a form should not get back a 400 level code because at the transaction layer, everything is working fine.  Instead, they should be sent a normal 200 level code and some human directed error codes.
+
+
+Set-cookie - This header value is used to populate a cookie, setting not just its identifying content, but also its usage policies.  
+
+Set-cookie:  value=<someIdentifyingValue>; //User's identifying token
+                    path=/;  //The paths this cookie should apply to
+                    domain=.someDomain.com; //Domains the cookie applies to. Prefixed . means all sub-domains.
+                    expires=<date>; //No date means session cookie.
+                    secure; //
+                    http-only; //Prevents JavaScript and other code from accessing the cookie. 
+
+
+/* Authentication
+================================ */
+
+/*Basic*/
+1) Client requests a restricted resource with a normal HTTP message
+2) Server returns a challenge to authenticate with a WWW-authenticate: Basic realm="<some text>" and a 401 code
+3) Browsers invoke their specific authorization protocol and sends the server the user's credentials along with Authorization: Basic <base64 encoded value> in the header.
+
+Basic authentication is extremely insecure because anyone who intercepts the header can decode the base64 string.
+
+/*Digest*/
+1) Client requests a restricted resource with a nomal HTTP message
+2) Server returns a challenge with WWW-authenticate: Digest realm="<some text>", a 401 code and a hash salt.
+3) The browser gets the user data as with Basic, but encrypts the information with the provided salt.  This gets sent to and decoded by the server (md5).
+
+This is still insecure without HTTPS as a man-in-the-middle attack could get both the salt and hash.

@@ -1,0 +1,56 @@
+<!doctype html>
+	<html>
+	<!--Setup header-->
+	<header>
+		<meta charset="utf8"> <!--Set character encoding-->
+		<script src="js/main.js" type="text/javascript"> </script><!--Add javascript file-->
+		<link href="css/style.css" type="stylesheet/css"/> <!--Add css stylesheet-->
+	</header>
+
+	<!--create a body-->
+	<body onload="someFunction()"><!--Set the onload event handler-->
+		<head><!--Semantic markup-->
+			<nav> <!--Navigation bar-->
+				<ul>
+					<li><a href="/home">home</a></li>
+					<li><a href="/about">about</a></li>
+					<li><a href="/contact">contact</a></li>
+				</ul>
+			</nav>
+		</head>
+		<div class="container">
+			<img src="img/file.png">
+			<form method="POST/GET" action="where_to_send_form_data.php">
+				Form input 1: <input type="text" name="input1" placeholder="Name" onchange="someNeatFunction()" autofocus>
+				Form input 2: <input type="text" name="input1" placeholder="Name" onfocus="someValidationFunction()">
+				Search: <input type="search" name="search1" onsearch="searchFunction()"><!--on search event handler-->
+				Password: <input type="password" name="password">
+				<button type="submit">Submit</button>
+				<button type="submit" formaction="submit_somewhere_else.asp">Another submit</button>
+			</form>
+			<table>
+				<thead>
+					<th>Header1</th>
+					<td></td>
+				</thead>
+				<tbody>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tbody>
+				<tfoot>
+					<td></td>
+				</tfoot>
+			</table>
+		</div>
+	</body>
+	<footer><!--Semantic markup-->
+		<nav> <!--Navigation bar-->
+			<ul>
+				<li><a href="/home">home</a></li>
+				<li><a href="/about">about</a></li>
+				<li><a href="/contact">contact</a></li>
+			</ul>
+		</nav>
+	</footer>
+</html>

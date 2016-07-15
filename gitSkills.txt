@@ -1,0 +1,132 @@
+/**************************
+Start a git project
+**************************/
+
+/* Initialize
+================================ */
+
+$: git init
+
+/* user config
+================================ */
+
+$: git config -g user.name UserNaME
+$: git config -g user.email email@email.com
+
+or edit $HOME/.gitconfig (user)
+		/etc/gitconfig	 (system)
+
+
+/**************************
+Version control
+**************************/
+
+/* Track files 
+================================ */
+
+$: git add fileName.txt
+	
+	or
+
+$: git add -a
+
+	or
+
+$: git add .
+
+/* Commit tracked files
+================================ */
+
+$: git commit -m "some sort of message"
+
+/* Pull changes
+================================ */
+
+$: git pull <REMOTENAME> <BRANCH>
+
+/* Push changes
+================================ */
+
+$: git push <REMOTENAME> <BRANCH>
+
+/* Clone from remote
+================================ */
+
+$: git clone <URLFROMGITHUB>
+
+/**************************
+Remote server 		
+**************************/
+
+/* Add remote connection
+================================ */
+
+$: git remote add <REMOTENAME> <URL> 
+
+/* Set a URL to a remote
+================================ */
+
+$: git remote set-url <REMOTENAME> <URL>
+
+/* View remote connections
+================================ */
+
+$: git remote -v
+
+/**************************
+Branches
+**************************/
+
+/* Create a branch
+================================ */
+
+$: git branch <BRANCHNAME>
+
+/* Switch into another branch
+================================ */
+
+$: git checkout <BRANCHNAME>
+
+/* Change current branch name
+================================ */
+
+$: git branch -M <NEWBRANCHNAME>
+
+/* List branches
+================================ */
+
+$: git branch
+
+/* Merge another branch *into current branch*
+================================ */
+
+$: git merge <BRANCHNAME>
+
+/* Delete local branch
+================================ */
+
+$: git branch -d <BRANCHNAME>
+
+/* Delete remote branch
+================================ */
+
+$: git push <REMOTENAME> --delete <BRANCHNAME>
+
+/**************************
+Misc
+**************************/
+
+/* Check status
+================================ */
+
+$: git status
+
+/* Difference tracked files and previous commit
+================================ */
+
+$: git diff
+
+/* See changes to remote before pulling
+================================ */
+
+$: git fetch --dry-run
