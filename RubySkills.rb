@@ -11,6 +11,26 @@ elsif number < 2
   #do other stuff!
 end #must end
 
+# strings
+this_string = "I will not escape special characters, so you can #{interpolate}"
+another_string = 'I will escape characters.  No #{interpolation} for you!'
+this_string = %Q(Functional example of interpolating #{string}) # doesn't have to be (), can be any? character
+another_string = %q(Notice the lower-case #{q})
+
+# Double quotes will also preserve whitespace
+multi_line_string = "Here
+is some
+#{whitespace}"
+
+#heredoc
+alternate_multi_line_string = <<-STRING
+this is a
+string #{with}
+some whitespace
+STRING
+
+# Whitespace characters
+# /t /n /s
 #Alternatively...
 unless number > 2
   #do stuff
