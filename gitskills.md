@@ -38,7 +38,9 @@ Git indexes commits with a SHA-1 hash.  Anywhere the hash is expected, the first
 
 HEAD pointer
 =====
-Head is a special pointer to the current tip of the current branch in our repository.  The "tip" is the last state of the repository; what was last checked out or committed.  The next commit will always take place after the HEAD (think: playhead
+Head is a special pointer to the current tip of the current branch in our repository.  The "tip" is the last state of the repository; what was last checked out or committed.  The next commit will always take place after the HEAD (think: playhead).  `.git/HEAD` will always point to `refs/heads/master`.
+
+    cat .refs/heads/master # 9a98b8f987gdd9...
 
 git status
 =====
@@ -70,3 +72,62 @@ Moving and renaming files
 Like deleting files, we can either do it from the filesystem and then stage the changes, or let Git deal with it (both techniques require commits).
 
     git mv file_to_rename.txt new_file_name.txt
+
+Undo working directory changes before committing
+=====
+
+    git checkout <name of file, folder, or branch>
+
+Because `git checkout` can take a branch (and branch will take precedence), it is best to type the command
+
+    git checkout [SHA-1] -- <name of file or folder>
+
+Unstaging
+=====
+Useful for organizing commits
+
+    git reset HEAD <file>
+
+This will take the file out of the staging index, but keep the working version of it.
+
+Amending commits
+=====
+We can always edit the last commit on the change because nothing depends on it yet.
+
+Add the changes as normal
+
+    git add <file>
+
+Pass the --amend arg
+
+    git commit --amend -m "New message"
+
+Reverting commits
+=====
+Will check what each of the commits until SHA-1 did, and reverses them.
+
+    git revert <SHA-1>
+
+This creates a new commit in the log and will sometimes require a merge, if the algorithm cannot determine how to undo the changes.
+
+Undo multiple commits
+=====
+**Very dangerous**
+
+    git reset <SHA-1>
+
+This command moves the head pointer to a particular commit, where it will start writing.  Although we can no longer see the commits after the one we moved to, the commits are still there and can be access if we have the SHA-1.
+
+There are several options that change the behavior
+
+    --soft
+      - does not change the staging index or working directory, only moves the head
+    --mixed
+      - (default) moves head pointer and changes the staging index, but not working directory
+    --hard
+      - changes the head pointer, staging index, and working directory
+
+Remove untracked files
+=====
+
+    git clean
