@@ -117,7 +117,7 @@ numberThings $(ls)
 ###Flags
 #Get flags with the getopts function
 while getopts u:p: option; do #gets the flags and their values, sets all to 'option'
-    case $option in 
+    case $option in
         u) user=$OPTARG;;
         p) pass=$OPTARG;;
         ?) echo "This isn't used!"
