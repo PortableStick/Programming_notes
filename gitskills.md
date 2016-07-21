@@ -82,6 +82,8 @@ Because `git checkout` can take a branch (and branch will take precedence), it i
 
     git checkout [SHA-1] -- <name of file or folder>
 
+`checkout` tells git, "Put this stuff in my working directory".
+
 Unstaging
 =====
 Useful for organizing commits
@@ -130,4 +132,50 @@ There are several options that change the behavior
 Remove untracked files
 =====
 
-    git clean
+    git clean -n # Test run
+    git clean -f # Required to actually clean directory
+
+Referencing commits
+=====
+
+**tree-ish**: _noun_, a category of object that git can use to reference commits and traverse the history
+
+* Full SHA-1
+* Short SHA-1 (at least 4 characters, 8-10 for large projects)
+* HEAD pointer
+* Branch or tag reference
+* Ancestory modifiers (HEAD^, master~2, etc...)
+
+Tree Listing
+=====
+
+    git ls-tree <tree-ish> [directory]
+
+Branching
+=====
+
+Show available and current branch
+
+    git branch
+
+Create branch
+
+    git branch <new branch>
+
+Switch branch
+
+    git checkout <branch>
+
+Both at the same time
+
+    git checkout -b <new branch>
+
+Renaming branches
+=====
+
+    git branch -m <old name> <new name>
+
+Deleting branches
+=====
+
+    git branch -d <branch to delete>
