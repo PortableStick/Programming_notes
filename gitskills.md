@@ -161,7 +161,7 @@ Show available and current branch
 
 Create branch
 ===
-    git branch <new branch>
+    git branch <new branch> [where to branch] # The optional argument can be important if you want to branch off of a remote, or perhaps from master while one another branch
 
 Switch branch
 ===
@@ -251,3 +251,54 @@ Delete from stash
 
     git stash clear # nuclear options
 
+Remotes
+=====
+Remote repositories are tracked locally simply as another branch.  This branch tries to keep up with the remote repository it's associated with.  By convention, the main remote that is treated as the canonical version of the project is called `origin`.
+
+List remotes
+===
+
+    git remote
+    git branch -r # Remotes only
+    git branch -a # Show all
+
+Add remotes
+===
+
+    git remote add [-v] <alias> <address> # The option -v lists URLs
+
+Remove remotes
+===
+
+    git remote rm <alias>
+
+Pushing to remotes
+===
+
+    git push -u <alias> <local branch to push> # Option -u sets tracking
+
+Cloning remotes
+===
+
+    git clone <path to remote repository> [name of directory]
+
+Tracking remotes
+===
+Start tracking
+
+    git branch --set-upstream <local branch> <alias/branch of remote repo
+
+Delete remotes
+===
+Delete a branch from your remote repo.
+Older way:
+
+    git push origin :<branch to delete> # notice the colon
+
+Newer way:
+
+    git push origin --delete <branch to delete>
+
+Fetching vs Pulling
+=====
+Both commands retrieve the most recent version of the remote repo and puts it in origin/master.  While `pull` merges those changes to the master branch automatically, `fetch` leaves it to the user to review the changes and then merge at their lesiure.  Fetch often. 
