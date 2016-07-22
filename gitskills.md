@@ -211,3 +211,43 @@ Merging strategies
     - watch whitespace!
 4) Merge often, but don't throw away the branch you're working on!
 5) Track changes to master (don't get out of sync with changes in master)
+
+The Stash
+=====
+
+Temporary storage, similar to commits, but without a SHA-1.  To stash working directory and index state,
+
+    git stash save "some message about the stash"
+
+Viewing the stash
+===
+
+    git stash list
+
+This will list things in the stash, referenced like so:
+
+    stash@{0}: On <branch>: <Stash message>
+
+View a particular stash
+
+    git stash show <stashID>
+
+    git stash show -p <stashID> # shows diff
+
+Retrieve from stash
+===
+This will bring everything in the stash into the working directory
+
+    git stash pop [stashID] # Removes from the stash
+
+    git stash apply [stashID] # Leaves in the stash
+
+Without the stashID, it will pull from the top of the stash (LIFO)
+
+Delete from stash
+===
+
+    git stash drop [stashID]
+
+    git stash clear # nuclear options
+
