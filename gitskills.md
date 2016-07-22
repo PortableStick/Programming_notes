@@ -155,19 +155,20 @@ Branching
 =====
 
 Show available and current branch
+===
 
     git branch
 
 Create branch
-
+===
     git branch <new branch>
 
 Switch branch
-
+===
     git checkout <branch>
 
 Both at the same time
-
+===
     git checkout -b <new branch>
 
 Renaming branches
@@ -179,3 +180,34 @@ Deleting branches
 =====
 
     git branch -d <branch to delete>
+
+Merging branches
+=====
+1) Checkout the branch you want to merge _into_
+2) Then run merge
+
+    git merge <banch to merge into current branch>
+
+Fast forward vs recursive merge
+===
+A fast forward merge occurs when HEAD points to a commit that is a direct anscestor of the commit you want to merge.  Since there's nothing in between your current branch and the changes you want to merge in, git can simply move the last commit into the target branch and the HEAD pointer to match.
+
+The problem with a fast forward merge is that because the last commit gets moved, all of the commit history contained in that branch gets lost.  You may also want to have a record in the history of a merge occurring, and a fast-forward merge simply looks like another commit.  In this case, you want a full recursive commit, which can be accomplished with the `--no-ff` option
+
+    git merge --no-ff <branch to merge into current branch>
+
+If you want to _ensure_ that the merge will be a fast-forward merge, the option `--only-ff` can be used.
+
+    git merge --only-ff <branch to merge into current branch>
+
+This will cause git to abort if the merge cannot be fast-forwarded.
+
+Merging strategies
+===
+
+1) Keep lines short
+2) Keep commits small and focused
+3) Be careful of stray (unintentional) or creeping edits
+    - watch whitespace!
+4) Merge often, but don't throw away the branch you're working on!
+5) Track changes to master (don't get out of sync with changes in master)
