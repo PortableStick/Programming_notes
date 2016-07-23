@@ -165,6 +165,8 @@ end
 #Use the shovel as a shortcut for += (strings) or array#push
 some_array = [1,2,3]
 some_array << 4 # [1,2,3,4]
+some_array += 5
+
 
 #Yield!
 #Functions have a way of delegating control to code blocks passed to it. This is done using the yield keyword.
