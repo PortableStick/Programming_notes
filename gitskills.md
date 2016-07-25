@@ -301,4 +301,21 @@ Newer way:
 
 Fetching vs Pulling
 =====
-Both commands retrieve the most recent version of the remote repo and puts it in origin/master.  While `pull` merges those changes to the master branch automatically, `fetch` leaves it to the user to review the changes and then merge at their lesiure.  Fetch often. 
+Both commands retrieve the most recent version of the remote repo and puts it in origin/master.  While `pull` merges those changes to the master branch automatically, `fetch` leaves it to the user to review the changes and then merge at their lesiure.  Fetch often.
+
+Rebase
+=====
+Merging leaves merge commits, and this can be especially annoying when merging often from another branch.  Sometimes, a better choice is to rebase, or go back to some specified commit and replay the history.  This effectively changes the _base_ of the branch ("re-basing").
+
+    git rebase <commit to start playing back from>
+
+An interactive rebase does the same thing, but will open an editor window with a list of the commits, their SHA-1, and commands for each one to execute.
+
+    pick ea395f4 Added rspec config
+    pick 62cd50d Update rubocop configs
+    pick 8d851ef Update zshrc aliases
+    pick 1efe6cd Updated global gitignore
+    pick 1d7d7ca Install RSpec helpers in Sublime Text
+    pick 12fc8a4 Update ApplySyntax settings
+
+Commands are listed at the bottom.  History can be reworked from here.
