@@ -338,3 +338,166 @@ shared_examples_for('a standard object') do
     expect(subject.attribute).to eq('ding dong diddy') # subject is implicitly defined
   end
 end
+
+# Test doubles
+# Any object used in testing that stands in for another object
+# Double/mock - a simple object preprogrammed with expecations and responses as preparation for the calls it will receive; "double" in rspec
+# Stub - an instruction to an object to return a specific response to a method call; "allow" in rspec
+
+describe 'Doubles' do
+  it 'allows stubbing methods' do
+    dbl = double('Name of the double')
+    allow(dbl).to receive(:hey!)
+    expect(dble).to respond_to(:hey!)
+  end
+
+  it 'allows stubbing a response with a block' do
+    dbl = double('Name of the double')
+    allow(dbl).to receive(:hey!) { 'Response' }
+    expect(dbl.hey!).to eq('Response')
+  end
+
+  it 'allows stubbing responses with #and_return' do
+    dbl = double('Name of the double')
+    allow(dbl).to receive(:hey!).and_return('Response')
+    expect(dbl.hey!).to eq('Response')
+  end
+
+  it 'allows stubbing multiple methods with hash syntax' do
+    dbl = double('Person')
+    allow(dbl).to receive_messages(full_name: 'Mary Jones', initials: 'MTS')
+    expect(dbl.full_name).to eq('Mary Jones')
+    expect(dbl.initials).to eq('MTS')
+  end
+
+  it 'allows stubbing with a hash argument to #double' do
+    dbl = double('Person', full_name: 'Mary Jones', initials: 'MTS')
+    expect(dbl.full_name).to eq('Mary Jones')
+    expect(dbl.initials).to eq('MTS')
+  end
+
+  it 'allows stubbing multiple responses with #and_return' do
+    die = double('Die')
+    allow(die).to receive(:roll).and_return(1, 5, 2, 6)
+    expect(die.roll).to eq(1)
+    expect(die.roll).to eq(5)
+    expect(die.roll).to eq(2)
+    expect(die.roll).to eq(6)
+    expect(die.roll).to eq(6)
+  end
+end
+
+# Partial test doubles
+# A regular object with some features of a double
+
+descr
+ibe 'Partial test doubles' do
+  it 'allows stubbing instance methods on Ruby classes' do
+    time = Time.new(2010, 1, 1, 12, 0, 0)
+    allow(time).to receive(:year).and_return(1975)
+
+    expect(time.to_s).to eq('2010-01-01 12:00:00 -0500')
+    expect(time.year).to eq(1975)
+  end
+
+  it 'allow stubbing instance methods on custom classes' do
+    # Stubs always override declared methods
+    class SuperHero
+      attr_accessor :name
+    end
+
+    hero = SuperHero.new
+    hero.name = 'Superman'
+    expect(hero.name).to eq('Superman')
+
+    allow(hero).to receive(:name).and_return('Clark Kent')
+    expect(hero.name).to eq('Clark Kent')
+  end
+
+  it 'allows stubbing class methods on Ruby classes' do
+    fixed = Time.new(2010, 1, 1, 12, 0, 0)
+    allow(time).to receive(:now).and_return(fixed)
+
+    expect(Time.now).to eq(fixed)
+    expect(Time.now.to_s).to eq('2010-01-01 12:00:00 -0500')
+    expect(Time.now.year).to eq(2016) # Does not override other class methods
+  end
+
+  it 'allows stubbing database calls on a mock object' do
+    #
+    class Customer
+      attr_accessor :name
+      def self.find
+        # database lookup, returns one object
+      end
+    end
+
+    dbl = double('Mock customer')
+    allow(dbl).to receive(:name).and_return('Bob')
+    allow(Customer).to receive(:find).and_return(dbl)
+
+    customer = Customer.find
+    expect(customer.name).to eq('Bob')
+  end
+
+  it 'allows stubbing database calls with many mock objects' do
+    #
+    class Customer
+      attr_accessor :name
+      def self.all
+        # database lookup, returns an array of objects
+      end
+    end
+
+    c1 = double('First Customer', name: 'Bob')
+    c2 = double('Second Customer', name: 'Mary')
+    allow(Customer).to receive(:all).and_return([c1, c2])
+
+    customers = Customer.all
+    expect(customers[1].name).to eq('Mary')
+  end
+end
+
+# Message expectations
+# Set what the message can receive and set the test expectation in one line
+
+expect(dbl).to receive(:hey!).and_return('Ho!')
+
+dbl.hey! # Must be called afterwards
+
+# Order doesn't matter
+
+expect(dbl).to receive(:step_1)
+expect(dbl).to receive(:step_2)
+
+dbl.step_2
+dbl.step_1
+
+# Set the order exxplicitly
+
+expect(dbl).to receive(:step_1).ordered
+expect(dbl).to receive(:step_2).ordered
+
+dbl.step_2 # FAIL!
+dbl.step_1
+
+# Message argument constraints
+
+expect(dbl).to receive(:sort).with(any_args) # default
+expect(dbl).to receive(:sort).with('name')
+expect(dbl).to receive(:sort).with(no_args)
+expect(dbl).to receive(:sort).with(1, 'second', 'fun')
+expect(dbl).to receive(:sort).with('Any matcher')
+
+# Message count constriants
+
+expect(post).to receive(:like).exactly(3).times
+expect(post).to receive(:like).once
+expect(post).to receive(:like).twice # also at_least..., at_most...
+
+# Spies
+# Spies keep track of messages received and can 'play back' the record. Spies allow unstubbed methods to be passed through, too. They take the same syntax and constraints as stubs. The key difference is that spies keep that record of methods sent to the object.
+dbl = spy('name of spy')
+allow(dbl).to receive(:hey!).and_return('ho!')
+dbl.hey!
+expect(dbl).to have_received(:hey!)
