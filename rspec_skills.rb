@@ -17,7 +17,7 @@ describe 'thing' do
     it 'returns an array of colors names' do
       # expectations
     end
-    puts "Will output to the console"
+    puts 'Will output to the console'
     context 'when some other thing happens' do
       # all tests included here test some condition, usually an unhappy or default path
       it 'sends default values when no arguments are passed' do
@@ -41,8 +41,8 @@ expect('something here').to_not matcher
 # Equivalence matchers
 describe 'equivalence matchers' do
   it 'will use type coercion to match #eq' do
-    a = "2 cats"
-    b = "2 cats"
+    a = '2 cats'
+    b = '2 cats'
     expect(a).to eq(b)
     expect(a).to be == b
 
@@ -52,8 +52,8 @@ describe 'equivalence matchers' do
   end
 
   it 'will not use type corection to match #eql' do
-    a = "2 cats"
-    b = "2 cats"
+    a = '2 cats'
+    b = '2 cats'
     expect(a).to eql(b)
 
     c = 17
@@ -62,8 +62,8 @@ describe 'equivalence matchers' do
   end
 
   it 'will match identity equality with #equal' do
-    a = "2 cats"
-    b = "2 cats"
+    a = '2 cats'
+    b = '2 cats'
     expect(a).not_to equal(b)
 
     c = b
@@ -126,7 +126,7 @@ describe 'collection matchers' do
     array = [1, 2, 3]
 
     expect(array).to include(3)
-    expect(array).to include(1,3)
+    expect(array).to include(1, 3)
 
     expect(array).to start_with(1)
     expect(array).to end_with(3)
