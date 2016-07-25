@@ -312,3 +312,8 @@ class TheHereAnd
 end
 
 TheHereAnd.now
+
+# Equivalence
+# == tests whether things have roughly the same value, eg. (1 == 1.0) is true, ('1' == 1) is false.
+# .eql?() is stricter by not allowing type coercion.  1.eql?(1.0) returns false.
+# .equal?() is the strictest, testing not only value but the object_id
