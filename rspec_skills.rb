@@ -390,8 +390,7 @@ end
 # Partial test doubles
 # A regular object with some features of a double
 
-descr
-ibe 'Partial test doubles' do
+describe 'Partial test doubles' do
   it 'allows stubbing instance methods on Ruby classes' do
     time = Time.new(2010, 1, 1, 12, 0, 0)
     allow(time).to receive(:year).and_return(1975)
@@ -501,3 +500,161 @@ dbl = spy('name of spy')
 allow(dbl).to receive(:hey!).and_return('ho!')
 dbl.hey!
 expect(dbl).to have_received(:hey!)
+
+# Rspec & Rails
+# install gem rspec-rails
+# Rails will need to setup the development database separately - rails, rails spec, or rails db:spec:prepare(?) will do it automatically
+# It is generally best to keep Rails configured to use transactional examples. This will clean up the database after each example so that the tests are atomic.
+# before(:example) blocks get cleaned up after each test.
+# before(:context) blocks do not, and all database transactions must be undone manually with after(:context). This is useful for keeping some objects in the database that are used for multiple tests.
+
+# Model specs
+# Very straightforward - may need to use #reload on the model instance
+# Be mindful of #let vs #let! - #let won't create a record in the database until it is invoked. #let! will work right away.
+
+# Test associations and validations with shoulda-matchers
+
+# ActiveRecord doubles can be used with the gem rspec-active-mocks
+
+# Helper specs
+# There's an object in every spec called `helper` that gets automatically included.
+module ApplicationHelper
+  def next_page
+    (@page || 0) + 1
+  end
+end
+
+describe ApplicationHelper do
+  describe '#next_page' do
+    it 'returns @page plus 1' do
+      assign(:page, 5) # page is an instance variable within the ApplicationHelper module, but we have access to it here
+      expect(helper.next_page).to eq 6 # This passes because we assigned :page the value of 5
+    end
+  end
+end
+
+# Controller specs
+# Responses
+# Each CRUD operation has its own spec request method
+get(actions, options)
+post(actions, options)
+patch(actions, options)
+put(actions, options)
+delete(actions, options)
+head(actions, options) # Rarely used
+
+# In a controller spec...
+get(:index)
+
+# Controller specs also have 3 special objects
+controller
+response
+request
+
+describe CustomersController do
+  let(:customers) { Customer.all }
+
+  describe 'GET index' do
+    it 'assigns all customers to @customers' do
+      get :index
+      expect(assigns['customers']).to eq(customers) # instance variable assignments
+    end
+  end
+end
+
+# Responses
+# We call expectations on the response object
+expect(response).to render_template('index')
+expect(response).to redirect_to('some path')
+expect(response).to have_http_status(200)
+
+describe CustomersController do
+  describe 'GET index' do
+    before(:example) { get :index }
+
+    it 'is a success' do
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "renders 'index' template" do
+      expect(response).to render_template 'index'
+    end
+  end
+end
+
+# Note that the template does not actually get rendered here. The response body is empty - the expectation only cares about what _would_ be rendered
+describe 'GET index' do
+  it 'does not render a template' do
+    get :index
+    expect(response).to render_template 'customers/index'
+    expect(response.body).to eq('') # Both of these will pass
+  end
+end
+
+# We can force a render...
+describe 'GET index' do
+  render_views # BOOM
+
+  it 'does not render a template' do
+    get :index
+    expect(response).to render_template 'customers/index'
+    expect(response.body).to match(/some text within the body/)
+  end
+end
+
+# This sucks for a variety of performance related reasons.  Use view specs instead
+
+# View specs
+# Isolated from controller and request-response cycle to improve performance
+# One spec per template
+
+# Three steps:
+# # 1) Make instance variable assignments (since we're not using the controller at all)
+# # 2) Render the template
+# # 3) Set expectations on what gets returned
+
+# View specs have some helpfucl objects
+view
+assign
+render
+rendered # results of the render
+
+describe 'customers/index' do # Rspec infers the controller and action
+  it 'displays all assigned customers' do
+    assign(:customers, [Customer.new(name: 'Alice'), Customer.new(name: 'Bob'), Customer.new(name: 'Claire')])
+
+    render
+
+    expect(rendered).to match(/Alice/)
+    expect(rendered).to match(/Bob/)
+    expect(rendered).to match(/Claire/)
+
+    expect(view).to render_template(partial: '_persons', count: 3) # render the relevant partial as many times as there are people
+    expect(view).to render_template(partial: '_pagination', locals: { page: 1 })
+  end
+end
+
+# Without inferring controller/action...
+describe 'doing something and rendering some stuff' do # Rspec cannot infer the controller and action
+  it 'displays all assigned customers' do
+    assign(:customers, [Customer.new(name: 'Alice'), Customer.new(name: 'Bob'), Customer.new(name: 'Claire')])
+
+    render(template: 'customers/index.html.erb', layout: 'layouts/application') # Specify controller/action here; Note that layout must be specified or it won't be rendered (even if controller/action is inferred)
+
+    expect(rendered).to match(/Alice/)
+    expect(rendered).to match(/Bob/)
+    expect(rendered).to match(/Claire/)
+  end
+end
+
+# Stub rendering of partials
+describe 'customers/index' do
+  it 'allows stubbing partial templates' do
+    assign(customers: [Customer.new(name: 'Alice')])
+
+    stub_template('customers/_customer.html.erb' => '<%= customer.name.reverse %><br />')
+
+    render
+    expect(rendered).to match(/ecilA/)
+  end
+end
