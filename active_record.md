@@ -1,1 +1,0 @@
-ActiveRecord is an abstraction for the database.
