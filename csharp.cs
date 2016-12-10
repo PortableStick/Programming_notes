@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Collections {
+namespace Notes {
     class CollectionTypes {
         public static void Arrays() {
             // Arrays
@@ -72,10 +72,7 @@ namespace Collections {
             Dictionary<int, string> uselessNumberedList = new Dictionary<int, string>();
         }
     }
-}
 
-namespace LINQ
-{
     class learnLINQ
     {
         List<Person> somePeople = People.SomePeople;
@@ -98,6 +95,69 @@ namespace LINQ
         }
     }
 
+    class Delegates
+    {
+        // Delegates are anonymous functions
+        // They are used in 4 steps
+        // 1. Declare the delegate type function
+        delegate int SomeDelegate(int number);
+        // 2. Define another method with the same signature as the delegate
+        public int TrueRNG(int number)
+        {
+            return number * 3193847;
+        }
+        // 3. Instatiate the delegate and pass the desired functionality
+        public void LetsDoAThing()
+        {
+            SomeDelegate randomizedNumber = new SomeDelegate(TrueRNG);
+            // 4. Call the delegate
+            int myTrulyRandomNumber = randomizedNumber(2);
+            // We can also skip the ceremony of creating a matching function, instead passing the functionality into the delegate directly
+            // Remember that we can only do this with an existing delegate instance.  The delegate is the empty shell we put functionality into.
+            randomizedNumber = delegate(int number)
+            {
+                return number * 8989927; // Wow. Such random.  Wow.  Many unpredictables.
+            };
+            // Call it as before
+            int anotherAbsolutelyRandomNumber = randomizedNumber(6);
+        }
+    }
+
+    class ActionsAndFuncs
+    {
+        public static void Main()
+        {
+            // Actions are another type of delegate that can be declared at instantiation.  They are generics.
+            // They do not return anything!
+            Action<string> myFirstAction = delegate(string word)
+            {
+                Console.WriteLine(word);
+            };
+
+            myFirstAction("Useless string");
+
+            // Funcs are like actions, but they return a value
+            // When declaring the func, Func<T1, Tn>, Tn will always be the return value type, while all types before it are the input types.
+            Func<string, string> myFirstFunc = delegate(string word)
+            {
+                return word + " if you're nasty";
+            };
+
+            string whatsMyName = myFirstFunc("Greg");
+        }
+    }
+
+    class Lambdas
+    {
+        // Lambdas are the most abstract delegate form
+        // (param) => param + 2;
+        // param is mapped to param plus 2
+        // ES6 arrow functions, Ruby lambdas...
+
+        Func<string, string> yellWord = word => word + "!";
+        string iLove = yellWord("lamp");
+    }
+
     class AnonymousTypes
     {
         List<Person> somePeople = People.SomePeople;
@@ -108,9 +168,10 @@ namespace LINQ
         }
     }
 
+
+    // ******** Useful example code ******** //
     class Person
     {
-        // This is here as an example
         public string FirstName {get; set;}
         public string LastName {get; set;}
         public int Age {get; set;}

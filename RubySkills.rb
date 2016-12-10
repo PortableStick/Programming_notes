@@ -317,3 +317,53 @@ TheHereAnd.now
 # == tests whether things have roughly the same value, eg. (1 == 1.0) is true, ('1' == 1) is false.
 # .eql?() is stricter by not allowing type coercion.  1.eql?(1.0) returns false.
 # .equal?() is the strictest, testing not only value but the object_id
+
+### Ruby Core ###
+# Structs - A shortcut to create a class with accessor methods.
+
+# With a standard class...
+class User
+  attr_accessor :name, :email
+
+  def initialize(name, email)
+  end
+
+  def name_with_email
+    "#{name} <#{email}>"
+  end
+end
+
+new_user = User.new("G", "a@b.com")
+
+# As a struct...
+
+User = Struct.new(:name, :email) do # Everything in the block is evaluated
+  def name_with_email
+    "#{name} <#{email}>"
+  end
+end
+
+new_user = User.new("G", "a@b.com")
+
+User.each_pair do |key, value|
+  puts "#{key}: #{value}" # enumerates attributes
+end
+
+## Kernel and Object
+# Base classes that underly all of Ruby
+# Kernel is included by Object, so K's methods are available anywhere in Ruby
+# Examples include puts, printf, and p
+
+## File
+# Handles I/O
+File.open("file_name.txt", "w") do |file|
+  file.puts "I will be written to the file"
+end
+
+## Marshal
+# Get a binary dump of all data in an object
+save_user = Marshal.dump(new_user)
+
+### Standard Library ###
+# Contains larger, higher-level functionality than Core
+# Must be explicitly included
