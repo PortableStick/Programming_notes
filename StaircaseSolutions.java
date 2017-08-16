@@ -52,7 +52,7 @@ class StairProblems {
 			return 1;
 		}
 		int[] paths = {1, 1, 2};
-		for(int i = 3; i <= steps; i++) {
+		for(int i = 3; i <= s; i++) {
 			int count = paths[2] + paths[1] + paths[0];
 			paths[0] = paths[1];
 			paths[1] = paths[2];
